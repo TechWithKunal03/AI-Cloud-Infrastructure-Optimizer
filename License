@@ -1,0 +1,35 @@
+
+---
+
+# 2. `data.py`
+
+```python
+import pandas as pd
+import numpy as np
+
+
+def generate_metrics(rows=1000):
+    """
+    Generate simulated cloud infrastructure metrics.
+    """
+
+    np.random.seed(42)
+
+    data = {
+        "cpu_usage": np.random.normal(55, 15, rows),
+        "memory_usage": np.random.normal(60, 12, rows),
+        "network_usage": np.random.normal(45, 10, rows),
+        "request_rate": np.random.normal(500, 100, rows),
+        "latency": np.random.normal(200, 50, rows)
+    }
+
+    df = pd.DataFrame(data)
+
+    # Keep metrics within realistic ranges
+    df["cpu_usage"] = df["cpu_usage"].clip(0, 100)
+    df["memory_usage"] = df["memory_usage"].clip(0, 100)
+    df["network_usage"] = df["network_usage"].clip(0, 100)
+    df["request_rate"] = df["request_rate"].clip(0, None)
+    df["latency"] = df["latency"].clip(20, 1000)
+
+    return df
